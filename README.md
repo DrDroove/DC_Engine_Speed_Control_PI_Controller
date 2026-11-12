@@ -11,6 +11,8 @@ python -m pip install -r requirements_pi_graphics.txt
 ```
 
 ## Basic use
+The document assumes a > 0, T > 0, Kp > 0 and Ki > 0.  Kp=0 is
+    accepted as a useful limiting case; Ki must remain strictly positive.
 
 ```python
 from pi_controller_graphics import PIParameters, classify_mode
@@ -90,22 +92,6 @@ critical_tolerance=1e-9)`. The base class provides the common interface;
 `100 * max(0, H_peak - 1)`. It returns the numeric value `0.0` when there is
 no overcontrol. `overcontrol_details()` additionally returns the peak time,
 peak value, and dimensionless overshoot ratio `Mp = H_peak - 1`.
-
-There is an algebraic inconsistency in the supplied document's critical-mode
-paragraph. Its stated response is
-
-`H(t) = 1 - exp(-alpha*t) * (1 + k*t)`, where `k = 1/T - alpha`.
-
-Differentiating this expression gives the stationary point
-
-`t_peak = 1/alpha - 1/k` (when it is positive).
-
-For the Section 1.3.5 values `a=50`, `T=0.125`, `Kp=0.05`, and `Ki=0.49`,
-this gives a small overshoot of approximately **1.53%**. The document's later
-statement that the critical case has no overshoot for `Kp >= 0` does not follow
-from that response formula. This module follows the displayed `H(t)` formula
-and its derivative for the numerical check, rather than hard-coding the
-contradictory prose conclusion.
 
 The module uses NumPy for calculations and Matplotlib for plots. No SciPy
 installation is required.
